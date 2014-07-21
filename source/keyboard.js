@@ -42,6 +42,11 @@ JSNES.Keyboard = function() {
 };
 
 JSNES.Keyboard.prototype = {
+    getKeys: function() {
+        return this.state1.map(function(num){
+            return num - 0x40;
+        });
+    },
     setKey: function(key, value) {
         switch (key) {
             case 88: this.state1[this.keys.KEY_A] = value; break;      // X

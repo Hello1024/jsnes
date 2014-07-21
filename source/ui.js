@@ -35,6 +35,7 @@ if (typeof jQuery !== 'undefined') {
                 /*
                  * Create UI
                  */
+                self.predictor = new Predictor();
                 self.root = $('<div></div>');
                 self.screen = $('<canvas class="nes-screen" width="256" height="240"></canvas>').appendTo(self.root);
                 
@@ -273,28 +274,29 @@ if (typeof jQuery !== 'undefined') {
                             this.romSelect.append(optgroup);
                         }
                     }
-                },
+                    this.romSelect.children()[1].children[1].selected=true;
+                    this.loadROM();
+                  },
             
                 writeAudio: function(samples) {
                     return this.dynamicaudio.writeInt(samples);
                 },
             
                 writeFrame: function(buffer, prevBuffer) {
+                    this.predictor.ingest(prevBuffer, buffer, this.nes.keyboard.getKeys());
                     var imageData = this.canvasImageData.data;
+                    var buf = new ArrayBuffer(imageData.length);
+                    var buf8 = new Uint8ClampedArray(buf);
+                    var data = new Uint32Array(buf);
+
                     var pixel, i, j;
 
                     for (i=0; i<256*240; i++) {
-                        pixel = buffer[i];
+                        data[i] = buffer[i] || 0xFF000000;
 
-                        if (pixel != prevBuffer[i]) {
-                            j = i*4;
-                            imageData[j] = pixel & 0xFF;
-                            imageData[j+1] = (pixel >> 8) & 0xFF;
-                            imageData[j+2] = (pixel >> 16) & 0xFF;
-                            prevBuffer[i] = pixel;
-                        }
                     }
 
+                    imageData.set(buf8);
                     this.canvasContext.putImageData(this.canvasImageData, 0, 0);
                 }
             };

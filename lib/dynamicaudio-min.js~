@@ -21,13 +21,10 @@ DynamicAudio.prototype = {
     flashElement: null,
     
     init: function(opts) {
-        return;
         var self = this;
         self.id = DynamicAudio.nextId++;
-        window.AudioContext = window.AudioContext || window.webkitAudioContext;
-        self.audioElement = new AudioContext();
-
-         if (opts && typeof opts['swf'] !== 'undefined') {
+        
+        if (opts && typeof opts['swf'] !== 'undefined') {
             self.swf = opts['swf'];
         }
 
@@ -73,14 +70,9 @@ DynamicAudio.prototype = {
     },
     
     write: function(samples) {
-        return;
         if (this.audioElement !== null) {
-          var source = this.audioElement.createBufferSource();
-          source.buffer = buffer;
-          source.connect(this.audioElement.destination);
-          source.start(time);
+            this.audioElement.mozWriteAudio(samples);
         }
-
         else if (this.flashElement !== null) {
             var out = new Array(samples.length);
             for (var i = samples.length-1; i !== 0; i--) {
@@ -91,7 +83,6 @@ DynamicAudio.prototype = {
     },
     
     writeInt: function(samples) {
-        return;
         if (this.audioElement !== null) {
             var out = new Array(samples.length);
             for (var i = samples.length-1; i !== 0; i--) {

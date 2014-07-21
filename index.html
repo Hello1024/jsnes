@@ -3,12 +3,104 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>JSNES: A JavaScript NES emulator</title>
+    <style>
+.layer {
+  border: 1px solid #999;
+  margin-bottom: 5px;
+  text-align: left;
+  padding: 10px;
+}
+.layer_act {
+  width: 500px;
+  float: right;
+}
+.ltconv {
+  background-color: #FDD;
+}
+.ltrelu {
+  background-color: #FDF;
+}
+.ltpool {
+  background-color: #DDF;
+}
+.ltsoftmax {
+  background-color: #FFD;
+}
+.ltfc {
+  background-color: #DFF;
+}
+.ltlrn {
+  background-color: #DFD; 
+}
+.ltitle {
+  color: #333;
+  font-size: 18px;
+}
+.actmap {
+  margin: 1px;
+}
+#trainstats {
+  text-align: left;
+}
+.clear {
+  clear: both;
+}
+#wrap {
+  width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+h1 {
+  font-size: 16px;
+  color: #333;
+  background-color: #DDD;
+  border-bottom: 1px #999 solid;
+  text-align: center;
+}
+.secpart {
+  width: 400px;
+  float: left;
+}
+#lossgraph {
+  /*border: 1px solid #F0F;*/
+  width: 100%;
+}
+.probsdiv canvas {
+  float: left;
+}
+.probsdiv {
+  height: 60px;
+  width: 180px;
+  display: inline-block;
+  font-size: 12px;
+  box-shadow: 0px 0px 2px 2px #EEE;
+  margin: 5px;
+  padding: 5px;
+  color: black;
+}
+.pp {
+  margin: 1px;
+  padding: 1px;
+}
+#testset_vis {
+  margin-bottom: 200px;
+}
+body {
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+}
+</style>
+    
+    
 </head>
 
 <body>
     <h1>My JSNES</h1>
     
     <div id="emulator"></div>
+    
+    <div id="prediction"></div>
+    <div id="stats">stats</div>
+    <div id="visual">Visual goes here </div>
     
     <h2>Controls</h2>
     <table id="controls">
@@ -68,6 +160,9 @@
     <script src="source/papu.js" type="text/javascript" charset="utf-8"></script>
     <script src="source/ppu.js" type="text/javascript" charset="utf-8"></script>
     <script src="source/rom.js" type="text/javascript" charset="utf-8"></script>
+    <script src="source/covnet.js" type="text/javascript" charset="utf-8"></script>
+    <script src="source/visualise.js" type="text/javascript" charset="utf-8"></script>
+    <script src="source/predictor.js" type="text/javascript" charset="utf-8"></script>
     <script src="source/ui.js" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript" charset="utf-8">
         var nes;
